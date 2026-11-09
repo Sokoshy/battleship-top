@@ -58,6 +58,7 @@ export class Gameboard {
       }
     }
   }
+
   allSunk(){
     if(this.shipPos.length === 0) return false;
     for (const actualShip of this.shipPos) {
@@ -66,6 +67,21 @@ export class Gameboard {
       }
     }
     return true;
+  }
+
+  getHits() {
+    const hitCopy = [...this.alreadyHit];
+    return hitCopy;
+  }
+
+  getMissedAttacks() {
+    const missAttackCopy = [...this.missedAttacks];
+    return missAttackCopy;
+  }
+
+  getShipPlacements() {
+    const shipPosCopy = [...this.shipPos];
+    return shipPosCopy;
   }
 }
 

@@ -1,4 +1,4 @@
-import { test, expect } from "bun:test";
+import { test, expect, describe } from "bun:test";
 import { Gameboard } from "./gameboard.js";
 import { Ship } from "./ship.js";
 
@@ -87,3 +87,27 @@ test("placing a ship outside the board throws an error", () => {
   expect(() => board.placeShip(new Ship(1), [[5, 0]])).toThrow();
   expect(() => board.placeShip(new Ship(1), [[-1, 0]])).toThrow();
 });
+
+describe("See if get methode return a copy of the original array", () => {
+  const board = new Gameboard(5);
+  const first = new Ship(1);
+  const second = new Ship(1);
+  board.placeShip(first, [[0, 0]]);
+  board.placeShip(second, [[0, 1]]);
+  board.receiveAttack([4, 4]);
+  board.receiveAttack([0, 1]);
+
+
+  test("test getMissedAttacks()", () => {
+    expect(board.getMissedAttacks()).not.toBe(board.missedAttacks);
+    expect(board.getMissedAttacks()).toEqual(board.missedAttacks);
+  });
+  test("test getHits()", () => {
+    expect(board.getHits()).not.toBe(board.alreadyHit);
+    expect(board.getHits()).toEqual(board.alreadyHit);
+  });
+  test("test getShipPlacements()", () => {
+    expect(board.getShipPlacements()).not.toBe(board.shipPos);
+    expect(board.getShipPlacements()).toEqual(board.shipPos);
+  });
+})

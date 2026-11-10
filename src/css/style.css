@@ -1,3 +1,23 @@
+#setup-panel[hidden] {
+  display: none;
+}
+
+#setup-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+#setup-panel p {
+  margin: 0;
+}
+
+#start-btn {
+  font-weight: bold;
+}
+
 #player,
 #opponent {
   display: grid;

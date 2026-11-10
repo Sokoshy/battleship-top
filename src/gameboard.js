@@ -13,6 +13,16 @@ export class Gameboard {
     }
     for (const [x, y] of coordsArr) {
       if(x > this.size - 1 || x < 0 || y > this.size - 1 || y < 0) throw new Error("This coordinates is outside of the grid");
+    }
+    // Identical cells inside one placement must be rejected before touching the grid
+    if (new Set(coordsArr.map(([x, y]) => `${x},${y}`)).size !== coordsArr.length) {
+      throw new Error("The same cell was provided twice");
+    }
+    // Grid[y][x] holds a ship once occupied; anything non-null is taken — grid is the occupancy oracle
+    for (const [x, y] of coordsArr) {
+      if (this.grid[y][x] !== null) throw new Error("A ship is already placed at these coordinates");
+    }
+    for (const [x, y] of coordsArr) {
       this.grid[y][x] = ship;
     }
 
@@ -82,6 +92,11 @@ export class Gameboard {
   getShipPlacements() {
     const shipPosCopy = [...this.shipPos];
     return shipPosCopy;
+  }
+
+  clearShips() {
+    this.grid = createGrid(this.size);
+    this.shipPos = [];
   }
 }
 

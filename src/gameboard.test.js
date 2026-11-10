@@ -111,3 +111,34 @@ describe("See if get methode return a copy of the original array", () => {
     expect(board.getShipPlacements()).toEqual(board.shipPos);
   });
 })
+
+describe("placeShip overlap validation", () => {
+  test("rejects a ship whose cells overlap another ship", () => {
+    const board = new Gameboard(5);
+    board.placeShip(new Ship(2), [[1, 0], [2, 0]]);
+    expect(() => board.placeShip(new Ship(2), [[2, 0], [3, 0]])).toThrow();
+  });
+
+  test("does not record the rejected ship", () => {
+    const board = new Gameboard(5);
+    board.placeShip(new Ship(2), [[0, 0], [1, 0]]);
+    expect(() => board.placeShip(new Ship(2), [[1, 0], [2, 0]])).toThrow();
+    expect(board.getShipPlacements()).toHaveLength(1);
+    expect(board.allSunk()).toBe(false);
+  });
+
+  test("rejects duplicate cells inside one placement", () => {
+    const board = new Gameboard(5);
+    expect(() => board.placeShip(new Ship(2), [[2, 2], [2, 2]])).toThrow();
+  });
+});
+
+describe("clearShips", () => {
+  test("lets the board be re-placed from scratch", () => {
+    const board = new Gameboard(5);
+    board.placeShip(new Ship(2), [[0, 0], [1, 0]]);
+    board.clearShips();
+    expect(board.getShipPlacements()).toHaveLength(0);
+    expect(() => board.placeShip(new Ship(2), [[0, 0], [1, 0]])).not.toThrow();
+  });
+});

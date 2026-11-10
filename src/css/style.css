@@ -1,0 +1,24 @@
+#player,
+#opponent {
+  display: grid;
+  gap: 2px;
+  max-width: 480px;
+  margin-bottom: 1rem;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border: 1px solid #999;
+}
+
+.cell.ship {
+  background: #2c6fbb;
+}
+
+.cell.hit {
+  background: #c0392b;
+}
+
+.cell.miss {
+  background: #ddd;
+}

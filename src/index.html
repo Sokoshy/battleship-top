@@ -3,20 +3,41 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Battleship</title>
+    <title>Battleship — GBC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="main.js" type="module" defer></script>
   </head>
   <body>
-  <main>
-    <div id="setup-panel">
-      <p id="setup-status">Place your Carrier (5 cells) — click a cell on your board.</p>
-      <button id="orient-btn" type="button">Orientation: Horizontal</button>
-      <button id="random-btn" type="button">Random placement</button>
-      <button id="start-btn" type="button" disabled>Start game</button>
+    <div class="bezel">
+      <span class="screw screw-bottom-left"></span>
+      <span class="screw screw-bottom-right"></span>
+      <h1 class="marquee">BATTLESHIP<span class="sub">— COLOR CART · MOON PATROL EDITION —</span></h1>
+
+      <div class="screen">
+        <section id="setup-panel">
+          <p id="setup-status">Place your Carrier (5 cells) — click a cell on your board.</p>
+          <button id="orient-btn" class="btn" type="button">Orientation: Horizontal</button>
+          <button id="random-btn" class="btn" type="button">Random placement</button>
+          <button id="start-btn" class="btn btn--sun" type="button" disabled>Start game</button>
+        </section>
+
+        <div id="boards">
+          <figure class="board-wrap">
+            <figcaption>PLAYER</figcaption>
+            <div id="player"></div>
+          </figure>
+
+          <figure class="board-wrap enemy">
+            <figcaption>COMPUTER</figcaption>
+            <div id="opponent"></div>
+          </figure>
+        </div>
+
+        <p id="turn-banner" hidden>YOUR TURN — <b>FIRE WHEN READY</b></p>
+      </div>
     </div>
-    <div id="player"></div>
-    <div id="opponent"></div>
-  </main>
   </body>
 </html>

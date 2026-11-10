@@ -73,6 +73,7 @@ startBtn.addEventListener("click", () => {
   if (currentShipIndex < FLEET.length) return;
   phase = "battle";
   setupPanel.hidden = true;
+  document.getElementById("turn-banner").hidden = false;
   renderOpponentBoard(opponentBoardEl, computer.board);
 });
 

@@ -27,7 +27,8 @@ function printGrid(container, board, showShips) {
     cell.dataset.x = x;
     cell.dataset.y = y;
 
-    if (hasCoord(hits, x, y)) cell.classList.add("hit");
+    // A hit is a revealed ship cell on BOTH boards — water + X was asymmetric
+    if (hasCoord(hits, x, y)) cell.classList.add("ship", "hit");
     else if (hasCoord(misses, x, y)) cell.classList.add("miss");
     else if (hasCoord(shipCoords, x, y)) cell.classList.add("ship");
 

@@ -1,44 +1,208 @@
-#setup-panel[hidden] {
-  display: none;
+/* ===== Battleship — GBC "Color cart" theme ===== */
+:root {
+  --case: #4b366e;          /* grape-berry cartridge shell */
+  --case-light: #563f7e;
+  --case-dark: #40305e;
+  --screen: #d8dcbe;        /* greenish cream screen area */
+  --line: #2e3a4d;          /* deep slate outline */
+  --water: #6fbfca;         /* teal water */
+  --water-dot: #8fd3dc;
+  --ship: #3b6f9e;          /* steel-blue hull */
+  --ship-light: #bfcff0;
+  --ship-dark: #23415c;
+  --hit: #d94f4f;           /* brick red hit */
+  --miss: #3c3f46;
+  --sun: #f2c14e;           /* sunny accent */
+  --cream: #f2eeda;
 }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: var(--case);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.28) 1px, transparent 1.5px);
+  background-size: 6px 6px;
+  font-family: "Press Start 2P", monospace;
+  color: var(--line);
+  padding: 1.5rem 0.75rem;
+}
+
+.bezel {
+  position: relative;
+  background: linear-gradient(180deg, var(--case-light) 0%, var(--case-dark) 100%);
+  border: 4px solid #241c33;
+  border-radius: 26px;
+  box-shadow: inset 0 0 0 5px #6a4f93, 0 26px 50px rgba(0, 0, 0, 0.55);
+  padding: 1.1rem 1.25rem 1.5rem;
+  width: 100%;
+  max-width: 1060px;
+}
+
+.screw {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #8d6fa5, #2a2038 75%);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.25);
+}
+.screw-bottom-left  { bottom: 10px; left: 10px; }
+.screw-bottom-right { bottom: 10px; right: 10px; }
+
+.marquee {
+  text-align: center;
+  color: var(--cream);
+  font-size: 1.5rem;
+  letter-spacing: 0.35em;
+  margin: 0.2rem 0 0.95rem;
+  text-shadow: 3px 3px 0 #241c33;
+}
+.marquee .sub {
+  display: block;
+  font-size: 0.48rem;
+  letter-spacing: 0.25em;
+  color: var(--sun);
+  margin-top: 0.35rem;
+}
+
+.screen {
+  background-color: var(--screen);
+  background-image: radial-gradient(#c2c9a6 1.15px, transparent 1.4px);
+  background-size: 8px 8px;
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  box-shadow: inset 0 0 26px rgba(46, 58, 77, 0.35);
+  padding: 1rem;
+}
+
+/* ===== setup panel ===== */
+#setup-panel[hidden] { display: none; } /* display:flex would defeat [hidden] */
 
 #setup-panel {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
-#setup-panel p {
+#setup-status {
   margin: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.52rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--line);
+  color: var(--cream);
+  padding: 0.65rem 0.8rem;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0 rgba(36, 28, 51, 0.55);
+}
+#setup-status b { color: var(--sun); }
+
+.btn {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.5rem;
+  color: var(--line);
+  background: var(--cream);
+  border: 2px solid var(--line);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  box-shadow: 3px 3px 0 var(--line);
+  cursor: pointer;
+  transition: transform 80ms steps(2), box-shadow 80ms steps(2);
+}
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--line); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }
+.btn--sun { background: var(--sun); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+/* ===== boards ===== */
+#boards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
 }
 
-#start-btn {
-  font-weight: bold;
+.board-wrap { margin: 0; text-align: center; }
+
+figcaption {
+  display: inline-block;
+  background: var(--sun);
+  color: var(--line);
+  font-size: 0.55rem;
+  padding: 0.4rem 1rem;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--line);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.2em;
 }
+.enemy figcaption { background: var(--line); color: var(--sun); }
 
 #player,
 #opponent {
   display: grid;
   gap: 2px;
-  max-width: 480px;
-  margin-bottom: 1rem;
+  background: var(--line);
+  padding: 3px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 rgba(36, 28, 51, 0.5);
+  /* Why: fr-columns collapse to zero without an intrinsic width inside a flex row */
+  width: min(408px, 88vw); /* Why: 435*2+gap overflowed the screen area by ~20px */
 }
 
 .cell {
   aspect-ratio: 1;
-  border: 1px solid #999;
+  border-radius: 2px;
+  background: var(--water);
+  background-image: radial-gradient(var(--water-dot) 1.1px, transparent 1.35px);
+  background-size: 5px 5px;
+  position: relative;
+  cursor: pointer;
 }
 
 .cell.ship {
-  background: #2c6fbb;
+  background: var(--ship);
+  box-shadow: inset 3px 3px 0 var(--ship-light),
+              inset -3px -3px 0 var(--ship-dark);
 }
 
-.cell.hit {
-  background: #c0392b;
+.cell.hit::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background:
+    linear-gradient(to top right, transparent 42%, var(--hit) 42%, var(--hit) 58%, transparent 58%),
+    linear-gradient(to bottom right, transparent 42%, var(--hit) 42%, var(--hit) 58%, transparent 58%);
 }
 
-.cell.miss {
-  background: #ddd;
+.cell.miss::after {
+  content: "";
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  background: var(--miss);
+  box-shadow: 0 0 0 2px rgba(60, 63, 70, 0.35);
 }
+
+#turn-banner {
+  margin: 1rem auto 0;
+  width: fit-content;
+  font-size: 0.5rem;
+  color: var(--cream);
+  background: var(--line);
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+#turn-banner b { color: var(--sun); }
